@@ -1,13 +1,21 @@
 package org.example.servingwebcontent;
 
 import java.util.Map;
+import org.example.model.Message;
+import org.example.repositories.MessageRepository;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 @Controller
 public class GreetingController {
+
+  private final MessageRepository messageRepository;
+
+  public GreetingController(MessageRepository messageRepository) {
+    this.messageRepository = messageRepository;
+  }
 
   @GetMapping("/greeting")
   public String greeting(
@@ -19,7 +27,17 @@ public class GreetingController {
 
   @GetMapping
   public String main(Map<String, Object> model) {
-    model.put("message", "Starting page");
+    Iterable<Message> messages = messageRepository.findAll();
+    model.put("messages", messages);
+    return "main";
+  }
+
+  @PostMapping
+  public String add(@RequestParam String text, @RequestParam String tag,
+      Map<String, Object> model) {
+    messageRepository.save(new Message(text, tag));
+    Iterable<Message> messages = messageRepository.findAll();
+    model.put("messages", messages);
     return "main";
   }
 
