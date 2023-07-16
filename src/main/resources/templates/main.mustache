@@ -12,6 +12,10 @@
 </div>
 
 <div>List Massages</div>
+<form method="post" action="filter">
+  <input type="text" name="filter">
+  <button type="submit">Find by tag</button>
+</form>
 {{#messages}}
   <div>
     <b>{{id}}</b>
