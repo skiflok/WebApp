@@ -52,7 +52,7 @@ public class GreetingController {
   public String filter(@RequestParam String filter, Map<String, Object> model) {
     Iterable<Message> messages = null;
     if (filter != null && !filter.isEmpty()) {
-      messageRepository.findByTag(filter);
+      messages = messageRepository.findByTag(filter);
     } else {
       messages = messageRepository.findAll();
     }
