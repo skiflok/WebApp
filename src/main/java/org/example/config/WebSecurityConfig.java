@@ -26,8 +26,7 @@ public class WebSecurityConfig {
             .loginPage("/login")
             .permitAll()
         )
-        .logout(LogoutConfigurer::permitAll)
-        .csrf().disable();
+        .logout(LogoutConfigurer::permitAll);
 
     return http.build();
   }
