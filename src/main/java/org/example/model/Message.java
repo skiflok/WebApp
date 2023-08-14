@@ -28,4 +28,5 @@ public class Message {
   @Setter
   @NonNull
   private String tag;
+
 }
