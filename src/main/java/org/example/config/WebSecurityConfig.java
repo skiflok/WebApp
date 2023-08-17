@@ -2,13 +2,13 @@ package org.example.config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configurers.LogoutConfigurer;
-import org.springframework.security.core.userdetails.User;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
-import org.springframework.security.provisioning.InMemoryUserDetailsManager;
+import org.springframework.security.crypto.password.NoOpPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 
 @Configuration
@@ -32,14 +32,37 @@ public class WebSecurityConfig {
   }
 
   @Bean
-  public UserDetailsService userDetailsService() {
-    UserDetails user =
-        User.withDefaultPasswordEncoder()
-            .username("u")
-            .password("p")
-            .roles("USER")
-            .build();
-
-    return new InMemoryUserDetailsManager(user);
+  public PasswordEncoder passwordEncoder() {
+    return NoOpPasswordEncoder.getInstance();
   }
+
+  @Bean
+  public UserDetailsService userDetailsService() {
+    // Ваша логика создания UserDetails
+    return null;
+  }
+
+
+  @Bean
+  public AuthenticationManagerBuilder authenticationManagerBuilder(HttpSecurity http) throws Exception {
+    return (AuthenticationManagerBuilder) http.getSharedObject(AuthenticationManagerBuilder.class)
+        .userDetailsService(userDetailsService())
+        .passwordEncoder(passwordEncoder())
+        .and()
+        .build();
+  }
+
+
+//  @Bean
+//  public UserDetailsService userDetailsService() {
+//    UserDetails user =
+//        User.withDefaultPasswordEncoder()
+//            .username("u")
+//            .password("p")
+//            .roles("USER")
+//            .build();
+//    return new InMemoryUserDetailsManager(user);
+//  }
+
+
 }
