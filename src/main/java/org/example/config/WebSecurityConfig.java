@@ -13,7 +13,6 @@ import org.springframework.security.config.annotation.authentication.configurati
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configurers.LogoutConfigurer;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.NoOpPasswordEncoder;
@@ -31,7 +30,7 @@ public class WebSecurityConfig {
   public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
     http
         .authorizeHttpRequests((requests) -> requests
-            .requestMatchers("/").permitAll()
+            .requestMatchers("/", "/registration").permitAll()
             .anyRequest().authenticated()
         )
         .formLogin((form) -> form
@@ -52,7 +51,7 @@ public class WebSecurityConfig {
   public UserDetailsService userDetailsService() {
     return username -> {
       Optional<User> userOptional = userRepository.findByUsername(username);
-      if (userOptional.isPresent()) return (UserDetails) userOptional.get();
+      if (userOptional.isPresent()) return userOptional.get();
 
       throw new UsernameNotFoundException("User " + username + "not found");
     };
@@ -70,18 +69,4 @@ public class WebSecurityConfig {
   public AuthenticationManager authenticationManager(AuthenticationConfiguration config) throws Exception {
     return config.getAuthenticationManager();
   }
-
-
-//  @Bean
-//  public UserDetailsService userDetailsService() {
-//    UserDetails user =
-//        User.withDefaultPasswordEncoder()
-//            .username("u")
-//            .password("p")
-//            .roles("USER")
-//            .build();
-//    return new InMemoryUserDetailsManager(user);
-//  }
-
-
 }

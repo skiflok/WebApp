@@ -1,6 +1,5 @@
-package org.example.servingwebcontent;
+package org.example.controller;
 
-import java.util.Map;
 import org.example.model.Message;
 import org.example.repositories.MessageRepository;
 import org.springframework.stereotype.Controller;
@@ -10,11 +9,11 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 @Controller
-public class GreetingController {
+public class MainController {
 
   private final MessageRepository messageRepository;
 
-  public GreetingController(MessageRepository messageRepository) {
+  public MainController(MessageRepository messageRepository) {
     this.messageRepository = messageRepository;
   }
 

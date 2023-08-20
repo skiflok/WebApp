@@ -11,15 +11,18 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.Table;
+import java.util.Collection;
 import java.util.Set;
 import lombok.Getter;
 import lombok.Setter;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
 
 @Entity
 @Table(name = "users")
 @Getter
 @Setter
-public class User{
+public class User implements UserDetails {
 
   @Id
   @GeneratedValue(strategy = GenerationType.AUTO)
@@ -33,4 +36,43 @@ public class User{
   @Enumerated(EnumType.STRING)
   private Set<Role> roles;
 
+  @Override
+  public Collection<? extends GrantedAuthority> getAuthorities() {
+    return null;
+  }
+
+  @Override
+  public boolean isAccountNonExpired() {
+    return true;
+  }
+
+  @Override
+  public boolean isAccountNonLocked() {
+    return true;
+  }
+
+  @Override
+  public boolean isCredentialsNonExpired() {
+    return true;
+  }
+
+  @Override
+  public boolean isEnabled() {
+    return active;
+  }
 }
+
+
+/*
+Эти методы - часть интерфейса org.springframework.security.core.userdetails.UserDetails, который определяет контракт для класса, представляющего информацию о пользователе для Spring Security. Здесь вы переопределяете эти методы, чтобы предоставить Spring Security информацию о состоянии аккаунта пользователя. Давайте разберемся подробнее:
+
+isAccountNonExpired(): Этот метод возвращает true, если учетная запись пользователя не истекла по времени. В вашем случае, поскольку вы возвращаете true, это означает, что срок действия учетной записи не ограничен по времени.
+
+isAccountNonLocked(): Этот метод возвращает true, если учетная запись пользователя не заблокирована. Снова, поскольку вы возвращаете true, это означает, что учетная запись не заблокирована.
+
+isCredentialsNonExpired(): Этот метод возвращает true, если учетные данные пользователя (например, пароль) не истекли по времени. В вашем случае, поскольку вы возвращаете true, это означает, что учетные данные не ограничены по времени.
+
+isEnabled(): Этот метод возвращает true, если учетная запись пользователя активна. Здесь вы возвращаете значение поля active из вашей сущности User, что означает, что активность учетной записи зависит от значения этого поля.
+
+Таким образом, методы isAccountNonExpired(), isAccountNonLocked(), isCredentialsNonExpired() и isEnabled() позволяют Spring Security принимать решения о том, можно ли разрешить аутентификацию и авторизацию для данной учетной записи пользователя.
+*/
