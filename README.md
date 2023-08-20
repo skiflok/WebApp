@@ -13,3 +13,11 @@ v.0.0.2 [Доступ к данным с помощью MySQL](https://spring.io
 * добавляем сообщения в бд
 * фильтр сообщений по тегу
 * постгрес в докере
+
+v.0.0.3 Spring Boot Security: добавлена регистрация и авторизация пользователей в приложение
+
+* Добавлен RegistrationController
+* GreetingsController -> MainController
+* add UserRepository
+* add WebSecurityConfig
+* registration.html
