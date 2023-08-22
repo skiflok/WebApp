@@ -12,12 +12,16 @@
   <tr>
     <th>ID</th>
     <th>Name</th>
+    <th>Role</th>
+    <th></th>
   </tr>
   </thead>
   <tbody>
   <tr th:each="user : ${users}">
     <td th:text="${user.id}"></td>
     <td th:text="${user.username}"></td>
+    <td th:text="${user.roles}"></td>
+    <td><a href="user/${user.id}}">edit</a> </td>
   </tr>
   </tbody>
 </table>
