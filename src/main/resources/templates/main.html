@@ -23,8 +23,8 @@
 
 
 <div>Найти сообщения по тэгу</div>
-<form method="post" th:action="@{/filter}">
-  <input type="text" name="filter" placeholder="Введите тэг">
+<form method="get" th:action="@{/main}">
+  <input type="text" name="filter" th:value="${filter}" placeholder="Введите тэг">
   <button type="submit">Найти</button>
 </form>
 <div>Список сообщений</div>
