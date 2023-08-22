@@ -1,8 +1,7 @@
 package org.example.config;
 
-import java.util.Optional;
-import org.example.model.User;
 import org.example.repositories.UserRepository;
+import org.example.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -13,8 +12,6 @@ import org.springframework.security.config.annotation.authentication.configurati
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configurers.LogoutConfigurer;
-import org.springframework.security.core.userdetails.UserDetailsService;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.NoOpPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
@@ -25,6 +22,9 @@ public class WebSecurityConfig {
 
   @Autowired
   private UserRepository userRepository;
+
+  @Autowired
+  private UserService userDetailsService;
 
   @Bean
   public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
@@ -48,19 +48,9 @@ public class WebSecurityConfig {
   }
 
   @Bean
-  public UserDetailsService userDetailsService() {
-    return username -> {
-      Optional<User> userOptional = userRepository.findByUsername(username);
-      if (userOptional.isPresent()) return userOptional.get();
-
-      throw new UsernameNotFoundException("User " + username + "not found");
-    };
-  }
-
-  @Bean
   public AuthenticationProvider authenticationProvider() {
     DaoAuthenticationProvider authProvider = new DaoAuthenticationProvider();
-    authProvider.setUserDetailsService(userDetailsService());
+    authProvider.setUserDetailsService(userDetailsService);
     authProvider.setPasswordEncoder(passwordEncoder());
     return authProvider;
   }

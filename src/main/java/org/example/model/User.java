@@ -38,7 +38,7 @@ public class User implements UserDetails {
 
   @Override
   public Collection<? extends GrantedAuthority> getAuthorities() {
-    return null;
+    return getRoles();
   }
 
   @Override
@@ -58,7 +58,7 @@ public class User implements UserDetails {
 
   @Override
   public boolean isEnabled() {
-    return active;
+    return isActive();
   }
 }
 
