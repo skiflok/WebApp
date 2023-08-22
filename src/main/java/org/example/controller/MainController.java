@@ -1,7 +1,9 @@
 package org.example.controller;
 
 import org.example.model.Message;
+import org.example.model.User;
 import org.example.repositories.MessageRepository;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -31,7 +33,10 @@ public class MainController {
   }
 
   @PostMapping("add")
-  public String add(@RequestParam String text, @RequestParam String tag,
+  public String add(
+      @AuthenticationPrincipal User user,
+      @RequestParam String text,
+      @RequestParam String tag,
       Model model) {
     System.out.printf("\n########  add #########\n text %s tag %s", text, tag);
     Iterable<Message> messages;
@@ -41,7 +46,7 @@ public class MainController {
       model.addAttribute("messages", messages);
       return "main";
     }
-    messageRepository.save(new Message(text, tag));
+    messageRepository.save(new Message(text, tag, user));
     messages = messageRepository.findAll();
     model.addAttribute("messages", messages);
     System.out.println("add completed");
@@ -59,5 +64,4 @@ public class MainController {
     model.addAttribute("messages", messages);
     return "main";
   }
-
 }
