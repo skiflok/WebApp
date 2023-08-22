@@ -3,6 +3,7 @@
       xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity6">
 <head>
   <title>Spring Security Example</title>
+<!--  <link rel="stylesheet" type="text/css" href="/templates/styles.css">-->
 </head>
 <body>
 
@@ -20,20 +21,46 @@
   </form>
 </div>
 
-<div>Список сообщений</div>
 
+<div>Найти сообщения по тэгу</div>
 <form method="post" th:action="@{/filter}">
-  <input type="text" name="filter">
+  <input type="text" name="filter" placeholder="Введите тэг">
   <button type="submit">Найти</button>
 </form>
+<div>Список сообщений</div>
+<table>
+  <thead>
+  <tr>
+    <th>ID</th>
+    <th>Text</th>
+    <th>Tag</th>
+  </tr>
+  </thead>
+  <tbody>
+  <tr th:each="message : ${messages}">
+    <td th:text="${message.id}"></td>
+    <td th:text="${message.text}"></td>
+    <td th:text="${message.tag}"></td>
+  </tr>
+  </tbody>
+</table>
 
-<div th:each="message : ${messages}">
-  <div>
-    <b th:text="${message.id}"></b>
-    <span th:text="${message.text}"></span>
-    <i th:text="${message.tag}"></i>
-  </div>
-</div>
+<style>
+    table {
+        border-collapse: collapse;
+        width: 50%;
+    }
+
+    th, td {
+        border: 1px solid black;
+        padding: 8px;
+        text-align: left;
+    }
+
+    th {
+        background-color: lightgray;
+    }
+</style>
 
 </body>
 </html>
