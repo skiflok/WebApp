@@ -21,7 +21,7 @@
     <td th:text="${user.id}"></td>
     <td th:text="${user.username}"></td>
     <td th:text="${user.roles}"></td>
-    <td><a href="user/${user.id}}">edit</a> </td>
+    <td><a th:href="@{/user/{userId}(userId=${user.id})}">edit</a></td>
   </tr>
   </tbody>
 </table>
