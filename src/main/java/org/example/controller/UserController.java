@@ -1,6 +1,9 @@
 package org.example.controller;
 
+import java.util.Arrays;
 import java.util.Map;
+import java.util.Set;
+import java.util.stream.Collectors;
 import org.example.model.Role;
 import org.example.model.User;
 import org.example.repositories.UserRepository;
@@ -38,10 +41,24 @@ public class UserController {
   @PostMapping
   public String userSave(
       @RequestParam String username,
-      @RequestParam Map<String, String> form,
-      @RequestParam("userId") User user) {
+      @RequestParam("userId") User user,
+      @RequestParam(value = "roles", defaultValue = "NONE") Set<String> formRoles)
+  {
 
     user.setUsername(username);
+
+    Set<String> roles = Arrays.stream(Role.values())
+        .map(Role::name)
+        .collect(Collectors.toSet());
+
+    user.getRoles().clear();
+
+    for (String value : formRoles) {
+      if (roles.contains(value)) {
+        user.getRoles().add(Role.valueOf(value));
+      }
+    }
+
     userRepository.save(user);
 
     return "redirect:/user";
