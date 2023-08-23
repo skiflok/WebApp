@@ -6,12 +6,21 @@
 </head>
 <body>
 
-<form action="/user" method="post">
-  <input type="text", name="username" th:value="${user.username}}">
+<form th:action="@{/user}" method="post" th:object="${user}">
+  <div>UserName</div>
+  <input type="text" name="username" th:value="${user.username}">
 
+  <div th:each="role : ${roles}">
+    <label>
+      <input type="checkbox" th:field="*{roles}" th:value="${role}"
+             th:checked="${user.roles.contains(role)}"/>
+      <span th:text="${role.name}"></span>
+    </label>
+  </div>
 
-
+  <button type="submit">Save</button>
 </form>
+
 
 
 </body>
