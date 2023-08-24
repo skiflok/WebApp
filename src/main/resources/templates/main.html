@@ -3,7 +3,7 @@
       xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity6">
 <head>
   <title>Spring Security Example</title>
-<!--  <link rel="stylesheet" type="text/css" href="/templates/styles.css">-->
+  <!--  <link rel="stylesheet" type="text/css" href="/templates/styles.css">-->
 </head>
 <body>
 
@@ -15,9 +15,10 @@
 <span><a href="/user">User list</a></span>
 
 <div>
-  <form method="post" th:action="@{/add}">
-    <input type="text" name="text" placeholder="Введите сообщение" />
+  <form method="post" th:action="@{/add}" enctype="multipart/form-data">
+    <input type="text" name="text" placeholder="Введите сообщение"/>
     <input type="text" name="tag" placeholder="Тэг">
+    <input type="file" name="file">
     <button type="submit">Добавить</button>
   </form>
 </div>
@@ -36,6 +37,7 @@
     <th>Text</th>
     <th>Tag</th>
     <th>Author</th>
+    <th>img</th>
   </tr>
   </thead>
   <tbody>
@@ -44,6 +46,11 @@
     <td th:text="${message.text}"></td>
     <td th:text="${message.tag}"></td>
     <td th:text="${message.authorName}"></td>
+    <td>
+      <div th:if="${message.filename}">
+        <img th:src="@{'/images/' + ${message.filename}}" width="100" height="100" alt="Image">
+      </div>
+    </td>
   </tr>
   </tbody>
 </table>
@@ -63,6 +70,7 @@
     th {
         background-color: lightgray;
     }
+
 </style>
 
 </body>

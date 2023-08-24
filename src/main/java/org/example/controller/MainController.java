@@ -1,14 +1,21 @@
 package org.example.controller;
 
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.util.UUID;
 import org.example.model.Message;
 import org.example.model.User;
 import org.example.repositories.MessageRepository;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.multipart.MultipartFile;
 
 @Controller
 public class MainController {
@@ -18,6 +25,9 @@ public class MainController {
   public MainController(MessageRepository messageRepository) {
     this.messageRepository = messageRepository;
   }
+
+  @Value("${upload.path}")
+  String uploadPath;
 
   @GetMapping("/")
   public String greeting() {
@@ -47,19 +57,39 @@ public class MainController {
       @AuthenticationPrincipal User user,
       @RequestParam String text,
       @RequestParam String tag,
-      Model model) {
-    System.out.printf("\n########  add #########\n text %s tag %s", text, tag);
+      @RequestParam("file") MultipartFile file,
+      Model model) throws IOException {
+
     Iterable<Message> messages;
     if (text == null || text.isEmpty()) {
-      System.out.println("if (text == null || text.isEmpty()) ");
       messages = messageRepository.findAll();
       model.addAttribute("messages", messages);
       return "main";
     }
-    messageRepository.save(new Message(text, tag, user));
+
+    Message msg = new Message(text, tag, user);
+
+    if (file != null) {
+
+      Path uploadDir = Paths.get(uploadPath);
+      if (!Files.exists(uploadDir) && !Files.isDirectory(uploadDir)) {
+        Files.createDirectories(uploadDir);
+      }
+
+      System.out.println("directory " + uploadDir);
+
+      String uuidFile = UUID.randomUUID().toString();
+      String resultFleName = uploadDir + "/" + uuidFile + "." + file.getOriginalFilename();
+      System.out.println(resultFleName);
+
+      file.transferTo(Files.createFile(Path.of(resultFleName)));
+
+      msg.setFilename(resultFleName);
+    }
+
+    messageRepository.save(msg);
     messages = messageRepository.findAll();
     model.addAttribute("messages", messages);
-    System.out.println("add completed");
     return "main";
   }
 }
