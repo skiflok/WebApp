@@ -69,7 +69,7 @@ public class MainController {
 
     Message msg = new Message(text, tag, user);
 
-    if (file != null) {
+    if (!file.isEmpty()) {
 
       Path uploadDir = Paths.get(uploadPath);
       if (!Files.exists(uploadDir) && !Files.isDirectory(uploadDir)) {
@@ -79,12 +79,13 @@ public class MainController {
       System.out.println("directory " + uploadDir);
 
       String uuidFile = UUID.randomUUID().toString();
-      String resultFleName = uploadDir + "/" + uuidFile + "." + file.getOriginalFilename();
-      System.out.println(resultFleName);
+      String fileName = uuidFile + "." + file.getOriginalFilename();
+      Path resultFilePath = Paths.get(uploadPath, fileName);
 
-      file.transferTo(Files.createFile(Path.of(resultFleName)));
+      file.transferTo(resultFilePath);
 
-      msg.setFilename(resultFleName);
+      msg.setFilename(fileName);
+
     }
 
     messageRepository.save(msg);
