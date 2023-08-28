@@ -48,7 +48,7 @@
     <td th:text="${message.authorName}"></td>
     <td>
       <div th:if="${message.filename}">
-        <img th:src="@{/uploads/__${message.filename}__}" width="100" height="100" alt="Image">
+        <img th:src="@{/images/__${message.filename}__}" width="100" height="100" alt="Image">
       </div>
     </td>
   </tr>
