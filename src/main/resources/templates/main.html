@@ -3,9 +3,10 @@
       xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity6">
 <head>
   <title>Main page</title>
-  <div th:replace="common :: head"></div>
+  <div th:replace="~{common :: head}"></div>
 </head>
 <body>
+<div th:replace="~{fragments/header :: header}">Header</div>
 
 <div>
   <form th:action="@{/logout}" method="post">
