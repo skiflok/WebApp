@@ -8,11 +8,9 @@
 <body>
 <div th:replace="~{fragments/header :: header}">Header</div>
 <div class="container">
-  <div>Hello, user</div>
-  <a th:href="@{/main}">Main page</a>
-  <div th:replace="~{common :: body}"></div>
+  <h5>Hello, guest</h5>
+  <div>This is a simple clone of Twitter</div>
 </div>
+  <div th:replace="~{common :: body}"></div>
 </body>
 </html>
-
-

@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="https://www.thymeleaf.org">
 <head>
@@ -6,22 +5,24 @@
   <div th:replace="~{common :: head}"></div>
 </head>
 <body>
-<div th:replace="~{fragments/header :: header}">Header</div>
-Add new user
-<div th:if="${param.error}">
-  Invalid username and password.
+<div class="container">
+  <div th:replace="~{fragments/header :: header}">Header</div>
+  Add new user
+  <div th:if="${param.error}">
+    Invalid username and password.
+  </div>
+  <div th:if="${param.logout}">
+    You have been logged out.
+  </div>
+  <div th:if="${messages}">
+    <p th:text="${messages}"></p>
+  </div>
+  <form th:action="@{/registration}" method="post">
+    <div><label> User Name : <input type="text" name="username"/> </label></div>
+    <div><label> Password: <input type="password" name="password"/> </label></div>
+    <div><input type="submit" value="Add user"/></div>
+    <a href="/login">Sign in</a>
+  </form>
 </div>
-<div th:if="${param.logout}">
-  You have been logged out.
-</div>
-<div  th:if="${messages}">
-  <p th:text="${messages}"></p>
-</div>
-<form th:action="@{/registration}" method="post">
-  <div><label> User Name : <input type="text" name="username"/> </label></div>
-  <div><label> Password: <input type="password" name="password"/> </label></div>
-  <div><input type="submit" value="Add user"/></div>
-  <a href="/login">Sign in</a>
-</form>
 </body>
 </html>

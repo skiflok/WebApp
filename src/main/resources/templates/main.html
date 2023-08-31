@@ -7,54 +7,72 @@
 </head>
 <body>
 <div th:replace="~{fragments/header :: header}">Header</div>
+<div class="container">
+  <div>
+    <form th:action="@{/logout}" method="post">
+      <input type="submit" value="Sign Out"/>
+    </form>
+  </div>
+  <span><a href="/user">User list</a></span>
 
-<div>
-  <form th:action="@{/logout}" method="post">
-    <input type="submit" value="Sign Out"/>
+  <div>
+    <form method="post" th:action="@{/add}" enctype="multipart/form-data">
+      <input type="text" name="text" placeholder="Введите сообщение"/>
+      <input type="text" name="tag" placeholder="Тэг">
+      <input type="file" name="file">
+      <button type="submit">Добавить</button>
+    </form>
+  </div>
+
+
+  <div>Найти сообщения по тэгу</div>
+  <form method="get" th:action="@{/main}">
+    <input type="text" name="filter" th:value="${filter}" placeholder="Введите тэг">
+    <button type="submit">Найти</button>
   </form>
+  <div>Список сообщений</div>
+  <table>
+    <thead>
+    <tr>
+      <th>ID</th>
+      <th>Text</th>
+      <th>Tag</th>
+      <th>Author</th>
+      <th>img</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="message : ${messages}">
+      <td th:text="${message.id}"></td>
+      <td th:text="${message.text}"></td>
+      <td th:text="${message.tag}"></td>
+      <td th:text="${message.authorName}"></td>
+      <td>
+        <div th:if="${message.filename}">
+          <img th:src="@{/images/__${message.filename}__}" width="100" height="100" alt="Image">
+        </div>
+      </td>
+    </tr>
+    </tbody>
+  </table>
+
+  <style>
+    table {
+        border-collapse: collapse;
+        width: 50%;
+    }
+
+    th, td {
+        border: 1px solid black;
+        padding: 8px;
+        text-align: left;
+    }
+
+    th {
+        background-color: lightgray;
+    }
+
+  </style>
 </div>
-<span><a href="/user">User list</a></span>
-
-<div>
-  <form method="post" th:action="@{/add}" enctype="multipart/form-data">
-    <input type="text" name="text" placeholder="Введите сообщение"/>
-    <input type="text" name="tag" placeholder="Тэг">
-    <input type="file" name="file">
-    <button type="submit">Добавить</button>
-  </form>
-</div>
-
-
-<div>Найти сообщения по тэгу</div>
-<form method="get" th:action="@{/main}">
-  <input type="text" name="filter" th:value="${filter}" placeholder="Введите тэг">
-  <button type="submit">Найти</button>
-</form>
-<div>Список сообщений</div>
-<table>
-  <thead>
-  <tr>
-    <th>ID</th>
-    <th>Text</th>
-    <th>Tag</th>
-    <th>Author</th>
-    <th>img</th>
-  </tr>
-  </thead>
-  <tbody>
-  <tr th:each="message : ${messages}">
-    <td th:text="${message.id}"></td>
-    <td th:text="${message.text}"></td>
-    <td th:text="${message.tag}"></td>
-    <td th:text="${message.authorName}"></td>
-    <td>
-      <div th:if="${message.filename}">
-        <img th:src="@{/images/__${message.filename}__}" width="100" height="100" alt="Image">
-      </div>
-    </td>
-  </tr>
-  </tbody>
-</table>
-
 </body>
 </html>
