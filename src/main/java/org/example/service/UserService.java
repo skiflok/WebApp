@@ -2,6 +2,7 @@ package org.example.service;
 
 import java.util.Collections;
 import java.util.Optional;
+import java.util.UUID;
 import org.example.exception.UserIsAlreadyExistException;
 import org.example.model.Role;
 import org.example.model.User;
@@ -17,6 +18,9 @@ public class UserService implements UserDetailsService {
 
   @Autowired
   private UserRepository userRepository;
+
+  @Autowired
+  private MailSender mailSender;
 
   @Override
   public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
@@ -35,6 +39,13 @@ public class UserService implements UserDetailsService {
 
     user.setActive(true);
     user.setRoles(Collections.singleton(Role.USER));
+
+    user.setActivationCode(UUID.randomUUID().toString());
+
+    if (!user.getEmail().isEmpty()) {
+
+    }
+
     userRepository.save(user);
 
   }
