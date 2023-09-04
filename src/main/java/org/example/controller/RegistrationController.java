@@ -1,26 +1,23 @@
 package org.example.controller;
 
-import java.util.Collections;
-import java.util.Optional;
 import org.example.exception.UserIsAlreadyExistException;
-import org.example.model.Role;
 import org.example.model.User;
-import org.example.repositories.UserRepository;
 import org.example.service.UserService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 
 @Controller
 public class RegistrationController {
 
   private static final Logger logger = LoggerFactory.getLogger(RegistrationController.class);
+
 
   @Autowired
   private UserService userService;
@@ -43,6 +40,21 @@ public class RegistrationController {
 
     logger.info("User {} added", user.getUsername());
     return "redirect:/login";
+  }
+
+  @GetMapping("/activate/{code}")
+  public String activate(
+      Model model,
+      @PathVariable String code) {
+
+    boolean isActivated = userService.activateUser(code);
+
+    if (isActivated) {
+      model.addAttribute("messages", "User successfully activated");
+    } else {
+      model.addAttribute("messages", "Activation code is not found");
+    }
+    return "login";
   }
 
 }

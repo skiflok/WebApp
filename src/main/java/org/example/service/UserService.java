@@ -56,4 +56,15 @@ public class UserService implements UserDetailsService {
     userRepository.save(user);
 
   }
+
+  public boolean activateUser(String code) {
+    Optional<User> optionalUser = userRepository.findByActivationCode(code);
+
+    if (optionalUser.isPresent()) {
+      optionalUser.get().setActivationCode(null);
+      userRepository.save(optionalUser.get());
+      return true;
+    }
+    return false;
+  }
 }
