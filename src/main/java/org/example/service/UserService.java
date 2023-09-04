@@ -16,11 +16,13 @@ import org.springframework.stereotype.Service;
 @Service
 public class UserService implements UserDetailsService {
 
+  private final String HOST = "http://localhost:8080/activate/";
+
   @Autowired
   private UserRepository userRepository;
 
   @Autowired
-  private MailSender mailSender;
+  private MailNotificationService mailSender;
 
   @Override
   public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
@@ -38,12 +40,17 @@ public class UserService implements UserDetailsService {
     }
 
     user.setActive(true);
-    user.setRoles(Collections.singleton(Role.USER));
+//    user.setRoles(Collections.singleton(Role.USER));
 
     user.setActivationCode(UUID.randomUUID().toString());
 
     if (!user.getEmail().isEmpty()) {
-
+      String text = String.format("Hello, %s\n" +
+          "Welcome to WebApp. Please visit next link: %s%s",
+          user.getUsername(),
+          HOST,
+          user.getActivationCode());
+      mailSender.send(user.getEmail(), "Activation code", text);
     }
 
     userRepository.save(user);
