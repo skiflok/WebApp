@@ -39,7 +39,6 @@ public class UserService implements UserDetailsService {
       throw new UserIsAlreadyExistException("User is already exist");
     }
 
-    user.setActive(true);
 //    user.setRoles(Collections.singleton(Role.USER));
 
     user.setActivationCode(UUID.randomUUID().toString());
@@ -61,8 +60,10 @@ public class UserService implements UserDetailsService {
     Optional<User> optionalUser = userRepository.findByActivationCode(code);
 
     if (optionalUser.isPresent()) {
-      optionalUser.get().setActivationCode(null);
-      userRepository.save(optionalUser.get());
+      if (!optionalUser.get().isActive()) {
+        optionalUser.get().setActive(true);
+        userRepository.save(optionalUser.get());
+      }
       return true;
     }
     return false;
