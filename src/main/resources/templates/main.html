@@ -74,5 +74,27 @@
 
   </style>
 </div>
+
+
+<!-- debug-->
+<div th:if="${#authentication != null}">
+  #authentication != null
+</div>
+
+<div sec:authorize="isAuthenticated()">
+  This content is only shown to authenticated users.
+</div>
+<div sec:authorize="hasRole('USER')">
+  This content is only shown to users.
+</div>
+<div sec:authorize="hasRole('ADMIN')">
+  This content is only shown to ADMIN.
+</div>
+
+<div th:if="${#authorization.expression('hasRole(''ADMIN'')')}">
+  This will only be displayed if authenticated user has role ROLE_ADMIN.
+</div>
+
+<!-- debug-->
 </body>
 </html>

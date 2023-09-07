@@ -1,5 +1,6 @@
 <!DOCTYPE html>
-<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="https://www.thymeleaf.org"
+      xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity6">
 <head>
   <title>Getting</title>
   <!--  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />-->
@@ -11,6 +12,26 @@
   <h5>Hello, guest</h5>
   <div>This is a simple clone of Twitter</div>
 </div>
-  <div th:replace="~{common :: body}"></div>
+
+
+<!-- debug-->
+<div th:if="${#authentication == null}">
+  #authentication = null
+</div>
+
+<div sec:authorize="isAuthenticated()">
+  This content is only shown to authenticated users.
+</div>
+
+
+<!--<div th:if="${#authorization.expression('isAuthenticated()')}">-->
+<!--  ${#authorization.expression('isAuthenticated()')}-->
+<!--</div>-->
+<!-- debug-->
+
+
+<div th:replace="~{common :: body}"></div>
+
+
 </body>
 </html>
