@@ -5,24 +5,6 @@
   <div th:replace="~{common :: head}"></div>
 </head>
 <body>
-
-<!-- debug-->
-<!--<div class="my-2 my-lg-0">-->
-<!--  <ul class="navbar-nav"-->
-<!--      th:switch="${#authentication} ? ${#authorization.expression('isAuthenticated()')} : ${false}">-->
-<!--    <li class="nav-item pull-sm-0">-->
-<!--                    <span th:case="${false}">-->
-<!--                            <a class="nav-link btn btn-outline-primary" href="/login">Войдите</a>-->
-<!--                    </span>-->
-<!--      <span th:case="${true}">-->
-<!--                        <form th:action="@{/logout}" method="post">-->
-<!--                            <input class="btn btn-outline-primary" type="submit" value="Выход"/>-->
-<!--                        </form>-->
-<!--                    </span>-->
-<!--    </li>-->
-<!--  </ul>-->
-<!--</div>-->
-<!-- debug-->
 <nav class="navbar navbar-expand-lg bg-body-tertiary" th:fragment="header">
   <div class="container-fluid">
     <a class="navbar-brand" href="/">WebApp</a>
@@ -48,13 +30,12 @@
           <span th:case="${true}">
             <a class="nav-link btn btn-outline-primary">Profile</a>
           </span>
-          <span th:case="${false}">
-            <a class="nav-link btn btn-outline-primary">Profile false</a>
-          </span>
         </li>
         <!-- debug-->
       </ul>
-      <div class="navbar-text">"param.username"</div>
+      <div class="navbar-text" sec:authentication="name">
+          The value of the "name" property of the authentication object should appear here.
+      </div>
     </div>
   </div>
 </nav>
