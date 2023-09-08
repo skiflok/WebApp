@@ -9,26 +9,18 @@
 <body>
 <div th:replace="~{fragments/header :: header}">Header</div>
 <div class="container mt-5">
-  <h5>Hello, guest</h5>
+
+  <div th:switch="${#authentication} ? ${#authorization.expression('isAuthenticated()')} : ${false}">
+    <span th:case="${false}">
+        <h5>Hello, guest</h5>
+    </span>
+    <span th:case="${true}">
+        <h5>Hello, <span th:text="${#authentication.name}"></span></h5>
+    </span>
+  </div>
+
   <div>This is a simple clone of Twitter</div>
 </div>
-
-
-<!-- debug-->
-<div th:if="${#authentication == null}">
-  #authentication = null
-</div>
-
-<div sec:authorize="isAuthenticated()">
-  This content is only shown to authenticated users.
-</div>
-
-
-<!--<div th:if="${#authorization.expression('isAuthenticated()')}">-->
-<!--  ${#authorization.expression('isAuthenticated()')}-->
-<!--</div>-->
-<!-- debug-->
-
 
 <div th:replace="~{common :: body}"></div>
 
