@@ -8,8 +8,8 @@
 
 --create sequence hibernate_sequence start 1 increment 1;
 
-create sequence message_seq start with 1 increment by 50;
-create sequence users_seq start with 1 increment by 50;
+create sequence message_seq start with 5 increment by 50;
+create sequence users_seq start with 5 increment by 50;
 
 create table message (
   id bigint not null,
