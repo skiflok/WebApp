@@ -7,6 +7,7 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
+import jakarta.persistence.SequenceGenerator;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.NonNull;
@@ -21,7 +22,8 @@ import lombok.Setter;
 public class Message {
 
   @Id
-  @GeneratedValue(strategy = GenerationType.AUTO)
+  @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "message_SEQ")
+  @SequenceGenerator(name = "message_SEQ", sequenceName = "message_seq", allocationSize = 1)
   private Long id;
   @Setter
   @NonNull

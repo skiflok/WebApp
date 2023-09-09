@@ -1,15 +1,5 @@
---Hibernate: drop table if exists message cascade
---Hibernate: drop table if exists user_role cascade
---Hibernate: drop table if exists users cascade
---Hibernate: drop sequence if exists message_seq
---Hibernate: drop sequence if exists users_seq
---Hibernate: create sequence message_seq start with 1 increment by 50
---Hibernate: create sequence users_seq start with 1 increment by 50
-
---create sequence hibernate_sequence start 1 increment 1;
-
-create sequence message_seq start with 5 increment by 50;
-create sequence users_seq start with 5 increment by 50;
+create sequence message_seq start with 2 increment by 1;
+create sequence users_seq start with 2 increment by 1;
 
 create table message (
   id bigint not null,

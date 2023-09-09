@@ -11,6 +11,7 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
+import jakarta.persistence.SequenceGenerator;
 import jakarta.persistence.Table;
 import java.util.Collection;
 import java.util.Set;
@@ -28,7 +29,8 @@ import org.springframework.security.core.userdetails.UserDetails;
 public class User implements UserDetails {
 
   @Id
-  @GeneratedValue(strategy = GenerationType.AUTO)
+  @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "users_SEQ")
+  @SequenceGenerator(name = "users_SEQ", sequenceName = "users_seq", allocationSize = 1)
   private Long id;
   @Column(unique = true) // Делаем username уникальным
   private String username;
