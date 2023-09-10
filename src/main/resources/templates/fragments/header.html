@@ -14,28 +14,21 @@
       <span class="navbar-toggler-icon"></span>
     </button>
     <div class="collapse navbar-collapse" id="navbarSupportedContent">
-      <ul class="navbar-nav me-auto mb-2 mb-lg-0"
-          th:switch="${#authentication} ? ${#authorization.expression('isAuthenticated()')} : ${false}">
+      <ul class="navbar-nav me-auto mb-2 mb-lg-0">
         <li class="nav-item">
           <a class="nav-link active" aria-current="page" href="/">Home</a>
         </li>
         <li class="nav-item">
           <a class="nav-link active" aria-current="page" href="/main">Messages</a>
         </li>
-        <li class="nav-item">
+        <li class="nav-item" sec:authorize="hasRole('ADMIN')">
           <a class="nav-link active" aria-current="page" href="/user">User list</a>
         </li>
-        <!-- debug-->
-        <li class="nav-item">
-          <span th:case="${true}">
+        <li class="nav-item" th:if="${#authorization.expression('isAuthenticated()')}">
             <a class="nav-link btn btn-outline-primary">Profile</a>
-          </span>
         </li>
-        <!-- debug-->
       </ul>
-      <div class="navbar-text" sec:authentication="name">
-          The value of the "name" property of the authentication object should appear here.
-      </div>
+      <div class="navbar-text" sec:authentication="name">name</div>
     </div>
   </div>
 </nav>
