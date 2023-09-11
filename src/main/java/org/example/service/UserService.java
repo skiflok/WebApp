@@ -44,12 +44,7 @@ public class UserService implements UserDetailsService {
     user.setActivationCode(UUID.randomUUID().toString());
 
     if (!user.getEmail().isEmpty()) {
-      String text = String.format("Hello, %s\n" +
-          "Welcome to WebApp. Please visit next link: %s%s",
-          user.getUsername(),
-          HOST,
-          user.getActivationCode());
-      mailSender.send(user.getEmail(), "Activation code", text);
+      sendActivationCodeMessage(user);
     }
 
     userRepository.save(user);
@@ -89,4 +84,40 @@ public class UserService implements UserDetailsService {
     }
     userRepository.save(user);
   }
+
+  public void updateProfile(User user, String password, String email) {
+
+    boolean isEmailChanged = (email != null && !email.equals(user.getEmail()));
+
+    if (isEmailChanged) {
+      user.setEmail(email);
+
+      if (!email.isEmpty()) {
+        user.setActivationCode(UUID.randomUUID().toString());
+//        user.setActive(false);
+      }
+    }
+
+    if (!password.isEmpty()) {
+      user.setPassword(password);
+    }
+
+    userRepository.save(user);
+
+    if (isEmailChanged) {
+      sendActivationCodeMessage(user);
+    }
+
+  }
+
+  private void sendActivationCodeMessage(User user) {
+    String text = String.format("Hello, %s\n" +
+                    "Welcome to WebApp. Please visit next link: %s%s",
+            user.getUsername(),
+            HOST,
+            user.getActivationCode());
+    mailSender.send(user.getEmail(), "Activation code", text);
+  }
+
+
 }
