@@ -9,13 +9,6 @@
 <div th:replace="~{fragments/header :: header}">Header</div>
 <div class="container">
   <div>
-    <form th:action="@{/logout}" method="post">
-      <input type="submit" value="Sign Out"/>
-    </form>
-  </div>
-  <span><a href="/user">User list</a></span>
-
-  <div>
     <form method="post" th:action="@{/add}" enctype="multipart/form-data">
       <input type="text" name="text" placeholder="Введите сообщение"/>
       <input type="text" name="tag" placeholder="Тэг">
