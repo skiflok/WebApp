@@ -1,21 +1,15 @@
 package org.example.controller;
 
-import java.util.Arrays;
-import java.util.Map;
-import java.util.Set;
-import java.util.stream.Collectors;
 import org.example.model.Role;
 import org.example.model.User;
-import org.example.repositories.UserRepository;
+import org.example.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.Set;
 
 @Controller
 @RequestMapping("/user")
@@ -23,14 +17,16 @@ import org.springframework.web.bind.annotation.RequestParam;
 public class UserController {
 
   @Autowired
-  private UserRepository userRepository;
+  private UserService userService;
 
+  @PreAuthorize("hasAuthority('ROLE_ADMIN')")
   @GetMapping
   public String userList(Model model) {
-    model.addAttribute("users", userRepository.findAll());
+    model.addAttribute("users", userService.findAll());
     return "/userList";
   }
 
+  @PreAuthorize("hasAuthority('ROLE_ADMIN')")
   @GetMapping("{user}")
   public String userEditForm(
       @PathVariable User user,
@@ -40,6 +36,7 @@ public class UserController {
     return "/userEdit";
   }
 
+  @PreAuthorize("hasAuthority('ROLE_ADMIN')")
   @PostMapping
   public String userSave(
       @RequestParam String username,
@@ -47,22 +44,7 @@ public class UserController {
       @RequestParam(value = "roles", defaultValue = "NONE") Set<String> formRoles)
   {
 
-    user.setUsername(username);
-
-    Set<String> roles = Arrays.stream(Role.values())
-        .map(Role::name)
-        .collect(Collectors.toSet());
-
-    user.getRoles().clear();
-
-    for (String value : formRoles) {
-      if (roles.contains(value)) {
-        user.getRoles().add(Role.valueOf(value));
-      }
-    }
-
-    userRepository.save(user);
-
+    userService.save(user, username, formRoles);
     return "redirect:/user";
   }
 

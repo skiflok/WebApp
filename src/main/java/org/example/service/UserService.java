@@ -1,8 +1,5 @@
 package org.example.service;
 
-import java.util.Collections;
-import java.util.Optional;
-import java.util.UUID;
 import org.example.exception.UserIsAlreadyExistException;
 import org.example.model.Role;
 import org.example.model.User;
@@ -12,6 +9,9 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
+
+import java.util.*;
+import java.util.stream.Collectors;
 
 @Service
 public class UserService implements UserDetailsService {
@@ -67,5 +67,26 @@ public class UserService implements UserDetailsService {
       return true;
     }
     return false;
+  }
+
+    public List<User> findAll() {
+      return userRepository.findAll();
+    }
+
+  public void save(User user, String username, Set<String> formRoles) {
+    user.setUsername(username);
+
+    Set<String> roles = Arrays.stream(Role.values())
+            .map(Role::name)
+            .collect(Collectors.toSet());
+
+    user.getRoles().clear();
+
+    for (String value : formRoles) {
+      if (roles.contains(value)) {
+        user.getRoles().add(Role.valueOf(value));
+      }
+    }
+    userRepository.save(user);
   }
 }
