@@ -8,20 +8,58 @@
 <body>
 <div th:replace="~{fragments/header :: header}">Header</div>
 <div class="container">
-  <div>
-    <form method="post" th:action="@{/add}" enctype="multipart/form-data">
-      <input type="text" name="text" placeholder="Введите сообщение"/>
-      <div th:if="${message}">
-        <span class="error" th:if="${#fields.hasErrors('message.text')}" th:errors="*{message.text}"></span>
+
+<!--  <form class="was-validated">-->
+<!--    <div class="mb-3">-->
+<!--&lt;!&ndash;      <label for="validationTextarea" class="form-label">Textarea</label>&ndash;&gt;-->
+<!--      <textarea class="form-control" id="validationTextarea" placeholder="Required example textarea" required></textarea>-->
+<!--      <div class="invalid-feedback">-->
+<!--        Please enter a message in the textarea.-->
+<!--      </div>-->
+<!--    </div>-->
+<!--    <form/>-->
+
+  <form method="post" th:action="@{/add}" enctype="multipart/form-data">
+
+    <div class="input-group">
+      <span class="input-group-text w-25">Message</span>
+      <textarea class="form-control"
+                id="validationTextarea1"
+                aria-label="With textarea"
+                type="text"
+                name="text"
+                placeholder="Введите сообщение"></textarea>
+<!--      <div class="invalid-feedback">-->
+<!--        Please enter a message in the textarea.-->
+<!--      </div>-->
+    </div>
+
+    <div th:if="${message}">
+        <span class="error" th:if="${#fields.hasErrors('message.text')}"
+              th:errors="*{message.text}"></span>
+    </div>
+
+    <div class="input-group">
+      <span class="input-group-text w-25">Tag</span>
+      <input class="form-control"
+             aria-label="With textarea"
+             type="text"
+             name="tag"
+             placeholder="Тэг"/>
+      <div class="invalid-feedback">
+        <div th:if="${message}">
+        <span class="error" th:if="${#fields.hasErrors('message.tag')}"
+              th:errors="*{message.tag}"></span>
+        </div>
       </div>
-      <input type="text" name="tag" placeholder="Тэг">
-      <div th:if="${message}">
-        <span class="error" th:if="${#fields.hasErrors('message.tag')}" th:errors="*{message.tag}"></span>
-      </div>
-      <input type="file" name="file">
-      <button type="submit">Добавить</button>
-    </form>
-  </div>
+    </div>
+
+    <div class="input-group mb-3">
+      <label class="input-group-text w-25" for="inputGroupFile01">Upload</label>
+      <input type="file" class="form-control" id="inputGroupFile01" name="file">
+    </div>
+    <button type="submit" class="btn btn-primary">Добавить</button>
+  </form>
 
 
   <div>Найти сообщения по тэгу</div>
@@ -70,6 +108,11 @@
     th {
         background-color: lightgray;
     }
+
+
+
+
+
 
   </style>
 </div>

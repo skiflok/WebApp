@@ -65,8 +65,8 @@ public class MainController {
     message.setAuthor(user);
 
     if (bindingResult.hasErrors()) {
-        model.mergeAttributes(bindingResult.getModel());
-        model.addAttribute("message", message);
+      model.mergeAttributes(bindingResult.getModel());
+      model.addAttribute("message", message);
     } else {
 
       if (!file.isEmpty()) {
