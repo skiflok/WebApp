@@ -8,11 +8,13 @@ import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.SequenceGenerator;
+import jakarta.validation.constraints.NotBlank;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import lombok.Setter;
+import org.hibernate.validator.constraints.Length;
 
 
 @Entity
@@ -27,9 +29,12 @@ public class Message {
   private Long id;
   @Setter
   @NonNull
+  @NotBlank(message = "please fill the message")
+  @Length(max = 2048, message = "Message too long (more than 2 kB)")
   private String text;
   @Setter
   @NonNull
+  @Length(max = 255, message = "Tag too long (more than 255)")
   private String tag;
   @Setter
   @NonNull

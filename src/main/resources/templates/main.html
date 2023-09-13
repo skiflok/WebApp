@@ -11,7 +11,13 @@
   <div>
     <form method="post" th:action="@{/add}" enctype="multipart/form-data">
       <input type="text" name="text" placeholder="Введите сообщение"/>
+      <div th:if="${message}">
+        <span class="error" th:if="${#fields.hasErrors('message.text')}" th:errors="*{message.text}"></span>
+      </div>
       <input type="text" name="tag" placeholder="Тэг">
+      <div th:if="${message}">
+        <span class="error" th:if="${#fields.hasErrors('message.tag')}" th:errors="*{message.tag}"></span>
+      </div>
       <input type="file" name="file">
       <button type="submit">Добавить</button>
     </form>
