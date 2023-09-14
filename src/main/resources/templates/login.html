@@ -7,22 +7,40 @@
 <body>
 <div th:replace="~{fragments/header :: header}">Header</div>
 <div class="container">
+  <p class="h4 mb-3 text-start mt-3">Login page</p>
   <div th:if="${param.error}">
     Invalid username and password.
   </div>
   <div th:if="${param.logout}">
     You have been logged out.
   </div>
-  Login page
   <div th:if="${messages}">
     <p th:text="${messages}"></p>
   </div>
+
   <form th:action="@{/login}" method="post">
-    <div><label> User Name : <input type="text" name="username"/> </label></div>
-    <div><label> Password: <input type="password" name="password"/> </label></div>
-    <div><input type="submit" value="Sign In"/></div>
+    <div class="form-group row mb-3">
+      <label class="col-sm-2 col-form-label">User Name :</label>
+      <div class="col-sm-4">
+        <input type="text" name="username" class="form-control"
+               th:placeholder="username"/>
+      </div>
+    </div>
+
+    <div class="form-group row mb-3">
+      <label class="col-sm-2 col-form-label">Password:</label>
+      <div class="col-sm-4">
+        <input type="password" name="password" class="form-control"
+               th:placeholder="password"/>
+      </div>
+    </div>
+
+    <button class="btn btn-primary mb-3" type="submit">Sign In</button>
+
   </form>
-  <a href="/registration">Add new user</a>
+
+  <p><a class="link-offset-2 link-underline link-underline-opacity-50" href="/registration">Add new user</a></p>
+
 </div>
 </body>
 </html>
