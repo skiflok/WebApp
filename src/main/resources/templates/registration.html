@@ -36,7 +36,13 @@
       <label class="col-sm-2 col-form-label">Password:</label>
       <div class="col-sm-4">
         <input type="password" name="password" class="form-control"
-               th:placeholder="password"/>
+               th:placeholder="password"
+               th:classappend="${user != null and #fields.hasErrors('user.username')} ? 'is-invalid' : ''"/>
+        <div class="invalid-feedback">
+        <span class="error"
+              th:if="${user != null and #fields.hasErrors('user.password')}"
+              th:errors="*{user.password}"></span>
+        </div>
       </div>
     </div>
 
@@ -44,7 +50,13 @@
       <label class="col-sm-2 col-form-label">Email:</label>
       <div class="col-sm-4">
         <input type="email" name="email" class="form-control"
-               th:placeholder="email"/>
+               th:placeholder="email"
+               th:classappend="${user != null and #fields.hasErrors('user.email')} ? 'is-invalid' : ''"/>
+        <div class="invalid-feedback">
+        <span class="error"
+              th:if="${user != null and #fields.hasErrors('user.email')}"
+              th:errors="*{user.email}"></span>
+        </div>
       </div>
     </div>
 
