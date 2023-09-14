@@ -7,36 +7,24 @@
 </head>
 <body>
 <div th:replace="~{fragments/header :: header}">Header</div>
-<div class="container">
+<div class="container p-4">
 
-<!--  <form class="was-validated">-->
-<!--    <div class="mb-3">-->
-<!--&lt;!&ndash;      <label for="validationTextarea" class="form-label">Textarea</label>&ndash;&gt;-->
-<!--      <textarea class="form-control" id="validationTextarea" placeholder="Required example textarea" required></textarea>-->
-<!--      <div class="invalid-feedback">-->
-<!--        Please enter a message in the textarea.-->
-<!--      </div>-->
-<!--    </div>-->
-<!--    <form/>-->
-
-  <form method="post" th:action="@{/add}" enctype="multipart/form-data">
+  <form method="post" th:action="@{/add}"
+        enctype="multipart/form-data">
 
     <div class="input-group">
       <span class="input-group-text w-25">Message</span>
       <textarea class="form-control"
-                id="validationTextarea1"
-                aria-label="With textarea"
                 type="text"
                 name="text"
-                placeholder="Введите сообщение"></textarea>
-<!--      <div class="invalid-feedback">-->
-<!--        Please enter a message in the textarea.-->
-<!--      </div>-->
-    </div>
-
-    <div th:if="${message}">
-        <span class="error" th:if="${#fields.hasErrors('message.text')}"
+                placeholder="Введите сообщение"
+                th:classappend="${message != null and #fields.hasErrors('message.text')} ? 'is-invalid' : ''"
+      ></textarea>
+      <div class="invalid-feedback">
+        <span class="error"
+              th:if="${message != null and #fields.hasErrors('message.text')}"
               th:errors="*{message.text}"></span>
+      </div>
     </div>
 
     <div class="input-group">
@@ -58,7 +46,7 @@
       <label class="input-group-text w-25" for="inputGroupFile01">Upload</label>
       <input type="file" class="form-control" id="inputGroupFile01" name="file">
     </div>
-    <button type="submit" class="btn btn-primary">Добавить</button>
+    <button type="submit" class="btn btn-primary w-25">Добавить</button>
   </form>
 
 
@@ -108,6 +96,15 @@
     th {
         background-color: lightgray;
     }
+
+
+
+
+
+
+
+
+
 
 
 
