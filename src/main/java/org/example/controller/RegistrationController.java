@@ -1,5 +1,6 @@
 package org.example.controller;
 
+import jakarta.validation.Valid;
 import org.example.exception.UserIsAlreadyExistException;
 import org.example.model.User;
 import org.example.service.UserService;
@@ -8,6 +9,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -28,18 +30,32 @@ public class RegistrationController {
   }
 
   @PostMapping("/registration")
-  public String addUser(User user, Model model) {
+  public String addUser(
+      @Valid User user,
+      BindingResult bindingResult,
+      Model model) {
+
+    if (user.getPassword() !=null && user.getPassword().equals(user.getPassword2())) {
+      model.addAttribute("passwordError", "Password mismatch");
+    }
+
+    if (bindingResult.hasErrors()) {
+      model.mergeAttributes(bindingResult.getModel());
+      logger.info("bindingResult.hasErrors()");
+      return "/registration";
+    }
+
 
     try {
       userService.addUser(user);
+      logger.info("user {} added", user);
+      return "redirect:/login";
     } catch (UserIsAlreadyExistException e) {
       model.addAttribute("messages", e.getMessage());
       logger.info(e.getMessage());
       return "/registration";
     }
 
-    logger.info("User {} added", user.getUsername());
-    return "redirect:/login";
   }
 
   @GetMapping("/activate/{code}")

@@ -22,7 +22,13 @@
       <label class="col-sm-2 col-form-label">User Name :</label>
       <div class="col-sm-4">
         <input type="text" name="username" class="form-control"
-               th:placeholder="username"/>
+               th:placeholder="username"
+               th:classappend="${user != null and #fields.hasErrors('user.username')} ? 'is-invalid' : ''"/>
+        <div class="invalid-feedback">
+        <span class="error"
+              th:if="${user != null and #fields.hasErrors('user.username')}"
+              th:errors="*{user.username}"></span>
+        </div>
       </div>
     </div>
 
