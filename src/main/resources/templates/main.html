@@ -30,15 +30,13 @@
     <div class="input-group">
       <span class="input-group-text w-25">Tag</span>
       <input class="form-control"
-             aria-label="With textarea"
-             type="text"
              name="tag"
-             placeholder="Тэг"/>
+             placeholder="Тэг"
+             th:classappend="${message != null and #fields.hasErrors('message.tag')} ? 'is-invalid' : ''"/>
       <div class="invalid-feedback">
-        <div th:if="${message}">
-        <span class="error" th:if="${#fields.hasErrors('message.tag')}"
+        <span class="error"
+              th:if="${message != null and #fields.hasErrors('message.tag')}"
               th:errors="*{message.tag}"></span>
-        </div>
       </div>
     </div>
 
@@ -96,6 +94,7 @@
     th {
         background-color: lightgray;
     }
+
 
 
 
