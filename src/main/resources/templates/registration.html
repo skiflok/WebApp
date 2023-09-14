@@ -7,7 +7,7 @@
 <body>
 <div class="container">
   <div th:replace="~{fragments/header :: header}">Header</div>
-  Add new user
+  <p class="h4 mb-3 text-start mt-3">Registration</p>
   <div th:if="${param.error}">
     Invalid username and password.
   </div>
@@ -18,12 +18,36 @@
     <p th:text="${messages}"></p>
   </div>
   <form th:action="@{/registration}" method="post">
-    <div><label> User Name : <input type="text" name="username" placeholder="username"/> </label></div>
-    <div><label> Password: <input type="password" name="password" placeholder="password"/> </label></div>
-    <div><label> Email: <input type="email" name="email" placeholder="you@email.com"/> </label></div>
-    <div><input type="submit" value="Add user"/></div>
-    <a href="/login">Sign in</a>
+    <div class="form-group row mb-3">
+      <label class="col-sm-2 col-form-label">User Name :</label>
+      <div class="col-sm-4">
+        <input type="text" name="username" class="form-control"
+               th:placeholder="username"/>
+      </div>
+    </div>
+
+    <div class="form-group row mb-3">
+      <label class="col-sm-2 col-form-label">Password:</label>
+      <div class="col-sm-4">
+        <input type="password" name="password" class="form-control"
+               th:placeholder="password"/>
+      </div>
+    </div>
+
+    <div class="form-group row mb-3">
+      <label class="col-sm-2 col-form-label">Email:</label>
+      <div class="col-sm-4">
+        <input type="email" name="email" class="form-control"
+               th:placeholder="email"/>
+      </div>
+    </div>
+
+    <button class="btn btn-primary mb-3" type="submit">Add user</button>
+
   </form>
+
+  <p><a class="link-offset-2 link-underline link-underline-opacity-50" href="/login">Sign in</a></p>
+
 </div>
 </body>
 </html>
