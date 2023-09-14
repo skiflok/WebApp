@@ -35,8 +35,9 @@ public class RegistrationController {
       BindingResult bindingResult,
       Model model) {
 
-    if (user.getPassword() !=null && user.getPassword().equals(user.getPassword2())) {
+    if (user.getPassword() !=null && !user.getPassword().equals(user.getPassword2())) {
       model.addAttribute("passwordError", "Password mismatch");
+      return "/registration";
     }
 
     if (bindingResult.hasErrors()) {
