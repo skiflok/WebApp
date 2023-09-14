@@ -12,7 +12,7 @@
   <form method="post" th:action="@{/add}"
         enctype="multipart/form-data">
 
-    <div class="input-group">
+    <div class="input-group mb-3">
       <span class="input-group-text w-25">Message</span>
       <textarea class="form-control"
                 type="text"
@@ -27,7 +27,7 @@
       </div>
     </div>
 
-    <div class="input-group">
+    <div class="input-group mb-3">
       <span class="input-group-text w-25">Tag</span>
       <input class="form-control"
              name="tag"
@@ -41,20 +41,22 @@
     </div>
 
     <div class="input-group mb-3">
-      <label class="input-group-text w-25" for="inputGroupFile01">Upload</label>
-      <input type="file" class="form-control" id="inputGroupFile01" name="file">
+      <label class="input-group-text w-25">Upload</label>
+      <input type="file" class="form-control" name="file">
     </div>
-    <button type="submit" class="btn btn-primary w-25">Добавить</button>
+    <button type="submit" class="btn btn-primary w-25 mb-3">Add message</button>
   </form>
 
-
-  <div>Найти сообщения по тэгу</div>
   <form method="get" th:action="@{/main}">
-    <input type="text" name="filter" th:value="${filter}" placeholder="Введите тэг">
-    <button type="submit">Найти</button>
+    <div class="input-group mb-3">
+      <span class="input-group-text w-25">Find message by tag</span>
+      <input class="form-control" type="text" name="filter" th:value="${filter}"
+             placeholder="Введите тэг">
+    </div>
+    <button type="submit" class="btn btn-primary w-25 mb-3">Find message</button>
   </form>
-  <div>Список сообщений</div>
-  <table>
+  <p class="h4 mb-3 text-end">Message list</p>
+  <table class="table table-bordered">
     <thead>
     <tr>
       <th>ID</th>
@@ -64,7 +66,7 @@
       <th>img</th>
     </tr>
     </thead>
-    <tbody>
+    <tbody class="table-group-divider">
     <tr th:each="message : ${messages}">
       <td th:text="${message.id}"></td>
       <td th:text="${message.text}"></td>
@@ -72,45 +74,12 @@
       <td th:text="${message.authorName}"></td>
       <td>
         <div th:if="${message.filename}">
-          <img th:src="@{/images/__${message.filename}__}" width="100" height="100" alt="Image">
+          <img th:src="@{/images/__${message.filename}__}" class="rounded" width="100" height="100" alt="Image">
         </div>
       </td>
     </tr>
     </tbody>
   </table>
-
-  <style>
-    table {
-        border-collapse: collapse;
-        width: 50%;
-    }
-
-    th, td {
-        border: 1px solid black;
-        padding: 8px;
-        text-align: left;
-    }
-
-    th {
-        background-color: lightgray;
-    }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-  </style>
 </div>
 
 
