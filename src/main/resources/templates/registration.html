@@ -1,22 +1,25 @@
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="https://www.thymeleaf.org">
 <head>
-  <title>Spring Security Example </title>
+  <title>Registration</title>
   <div th:replace="~{common :: head}"></div>
 </head>
 <body>
+<div th:replace="~{fragments/header :: header}">Header</div>
 <div class="container">
-  <div th:replace="~{fragments/header :: header}">Header</div>
   <p class="h4 mb-3 text-start mt-3">Registration</p>
-  <div th:if="${param.error}">
-    Invalid username and password.
-  </div>
-  <div th:if="${param.logout}">
-    You have been logged out.
-  </div>
-  <div th:if="${messages}">
-    <p th:text="${messages}"></p>
-  </div>
+  <!--    <div th:if="${param.error}">-->
+  <!--      Invalid username and password.-->
+  <!--    </div>-->
+  <!--  <div th:if="${param.logout}">-->
+  <!--    You have been logged out.-->
+  <!--  </div>-->
+  <!--  <div th:if="${messages}">-->
+  <!--    <p th:text="${messages}"></p>-->
+  <!--  </div>-->
+  <!--    <div th:if="${password2Error}">-->
+  <!--      <p th:text="${password2Error}"></p>-->
+  <!--    </div>-->
   <form th:action="@{/registration}" method="post">
     <div class="form-group row mb-3">
       <label class="col-sm-2 col-form-label">User Name :</label>
@@ -37,11 +40,15 @@
       <div class="col-sm-4">
         <input type="password" name="password" class="form-control"
                th:placeholder="password"
-               th:classappend="${user != null and #fields.hasErrors('user.username')} ? 'is-invalid' : ''"/>
+               th:classappend="${(user != null and #fields.hasErrors('user.password')) or passwordError != null} ? 'is-invalid' : ''"/>
         <div class="invalid-feedback">
         <span class="error"
               th:if="${user != null and #fields.hasErrors('user.password')}"
-              th:errors="*{user.password}"></span>
+              th:errors="*{user.password}"></span><br>
+          <span class="error"
+                th:if="${passwordError}"
+                th:text="${passwordError}">
+          </span>
         </div>
       </div>
     </div>
@@ -49,14 +56,20 @@
     <div class="form-group row mb-3">
       <label class="col-sm-2 col-form-label">Password validation:</label>
       <div class="col-sm-4">
-        <input type="text" name="password2" class="form-control"
+        <input type="password" name="password2" class="form-control"
                th:placeholder="password"
-               th:classappend="${passwordError} ? 'is-invalid' : ''"/>
+               th:classappend="${password2Error != null or passwordError != null ? 'is-invalid' : ''}"/>
         <div class="invalid-feedback">
-        <span class="error"
-              th:if="${passwordError}"
-              th:errors="*{passwordError}"></span>
+          <span class="error"
+                th:if="${password2Error}"
+                th:text="${password2Error}">
+          </span><br>
+          <span class="error"
+                th:if="${passwordError}"
+                th:text="${passwordError}">
+          </span>
         </div>
+
       </div>
     </div>
 
@@ -74,11 +87,9 @@
       </div>
     </div>
 
-    <button class="btn btn-primary mb-3" type="submit">Add user</button>
+    <button class="btn btn-primary mb-3" type="submit">Register user</button>
 
   </form>
-
-  <p><a class="link-offset-2 link-underline link-underline-opacity-50" href="/login">Sign in</a></p>
 
 </div>
 </body>

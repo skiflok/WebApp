@@ -13,7 +13,6 @@ import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.SequenceGenerator;
 import jakarta.persistence.Table;
-import jakarta.persistence.Transient;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import java.util.Collection;
@@ -40,9 +39,6 @@ public class User implements UserDetails {
   private String username;
   @NotBlank(message = "password cannot be empty")
   private String password;
-  @Transient
-  @NotBlank(message = "password confirmation cannot be empty")
-  private String password2;
   private boolean active;
   @Email(message = "Email is not correct")
   @NotBlank(message = "email cannot be empty")

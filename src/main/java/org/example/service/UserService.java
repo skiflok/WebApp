@@ -52,8 +52,8 @@ public class UserService implements UserDetailsService {
     }
 
     user.setPassword(passwordEncoder.encode(user.getPassword()));
-    //todo
-    user.setActive(true);
+//    todo
+//    user.setActive(true);
     userRepository.save(user);
 
   }

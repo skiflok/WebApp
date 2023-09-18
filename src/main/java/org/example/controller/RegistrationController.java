@@ -13,6 +13,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 
 @Controller
@@ -31,16 +32,24 @@ public class RegistrationController {
 
   @PostMapping("/registration")
   public String addUser(
+      @RequestParam("password2") String passwordConfirm,
       @Valid User user,
       BindingResult bindingResult,
       Model model) {
 
-    if (user.getPassword() !=null && !user.getPassword().equals(user.getPassword2())) {
-      model.addAttribute("passwordError", "Password mismatch");
-      return "/registration";
+    boolean isConfirmEmpty = passwordConfirm.isEmpty();
+    logger.info("password not comfirm? {}",String.valueOf(isConfirmEmpty));
+
+    if (isConfirmEmpty) {
+      model.addAttribute("password2Error", "password confirmation cannot be empty");
     }
 
-    if (bindingResult.hasErrors()) {
+    if (user.getPassword() !=null && !user.getPassword().equals(passwordConfirm)) {
+      model.addAttribute("passwordError", "Password mismatch");
+//      return "/registration";
+    }
+
+    if (bindingResult.hasErrors() || isConfirmEmpty) {
       model.mergeAttributes(bindingResult.getModel());
       logger.info("bindingResult.hasErrors()");
       return "/registration";
@@ -71,7 +80,6 @@ public class RegistrationController {
     } else {
       model.addAttribute("messages", "Activation code is not found");
     }
-    return "login";
+    return "/login";
   }
-
 }
