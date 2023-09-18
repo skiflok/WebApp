@@ -96,32 +96,32 @@
 <!-- debug-->
 
 
-<div sec:authorize="hasRole('USER')">
-  1 This content is only shown to users.
-</div>
-<div sec:authorize="hasRole('ADMIN')">
-  2 This content is only shown to ADMIN.
-</div>
+<!--<div sec:authorize="hasRole('USER')">-->
+<!--  1 This content is only shown to users.-->
+<!--</div>-->
+<!--<div sec:authorize="hasRole('ADMIN')">-->
+<!--  2 This content is only shown to ADMIN.-->
+<!--</div>-->
 
-<div th:if="${#authorization.expression('hasRole(''ADMIN'')')}">
-  3 This will only be displayed if authenticated user has role ROLE_ADMIN.
-</div>
+<!--<div th:if="${#authorization.expression('hasRole(''ADMIN'')')}">-->
+<!--  3 This will only be displayed if authenticated user has role ROLE_ADMIN.-->
+<!--</div>-->
 
 
-<div sec:authorize="hasRole('ROLE_ADMIN')">
-  4 This will only be displayed if authenticated user has role ROLE_ADMIN.
-</div>
+<!--<div sec:authorize="hasRole('ROLE_ADMIN')">-->
+<!--  4 This will only be displayed if authenticated user has role ROLE_ADMIN.-->
+<!--</div>-->
 
-<div sec:authorize="${hasRole(#vars.expectedRole)}">
-  5 This will only be displayed if authenticated user has a role computed by the controller.
-</div>
+<!--<div sec:authorize="${hasRole(#vars.expectedRole)}">-->
+<!--  5 This will only be displayed if authenticated user has a role computed by the controller.-->
+<!--</div>-->
 
-<div th:if="${#authorization.expression('hasRole(''USER'')')}">
-  7 This content is only shown to users.
-</div>
-<div th:if="${#authorization.expression('hasRole(''ADMIN'')')}">
-  8 This content is only shown to ADMIN.
-</div>
+<!--<div th:if="${#authorization.expression('hasRole(''USER'')')}">-->
+<!--  7 This content is only shown to users.-->
+<!--</div>-->
+<!--<div th:if="${#authorization.expression('hasRole(''ADMIN'')')}">-->
+<!--  8 This content is only shown to ADMIN.-->
+<!--</div>-->
 
 <!-- debug-->
 </body>
