@@ -1,5 +1,7 @@
 package org.example.config;
 
+import static org.springframework.security.config.Customizer.withDefaults;
+
 import org.example.repositories.UserRepository;
 import org.example.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -45,6 +47,7 @@ public class WebSecurityConfig {
             .loginPage("/login")
             .permitAll()
         )
+        .rememberMe(withDefaults())
         .logout(LogoutConfigurer::permitAll);
 
     return http.build();
