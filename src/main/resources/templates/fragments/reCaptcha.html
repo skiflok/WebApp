@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity6">
+<head>
+</head>
+<body>
+<div th:fragment="reCaptcha">
+  <div class="g-recaptcha mb-3" data-sitekey="6LfhATUoAAAAAAWD2RpLL290HCy_52_QdidPF8vQ"
+       data-callback="onSubmit" data-action="submit"></div>
+  <div th:if="${captchaError}" class="alert alert-danger w-25" role="alert">
+    <p th:text="${captchaError}"></p>
+  </div>
+</div>
+
+</body>
+</html>
