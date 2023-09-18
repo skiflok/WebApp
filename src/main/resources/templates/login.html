@@ -8,13 +8,13 @@
 <div th:replace="~{fragments/header :: header}">Header</div>
 <div class="container">
   <p class="h4 mb-3 text-start mt-3">Login page</p>
-  <div th:if="${param.error}">
+  <div class="alert alert-danger w-50" role="alert" th:if="${param.error}">
     Invalid username and password.
   </div>
-  <div th:if="${param.logout}">
+  <div class="alert alert-primary w-50" role="alert" th:if="${param.logout}">
     You have been logged out.
   </div>
-  <div th:if="${messages}">
+  <div th:if="${messages}" class="alert alert-${messagesType} w-50" role="alert">
     <p th:text="${messages}"></p>
   </div>
 
