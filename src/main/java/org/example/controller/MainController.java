@@ -9,6 +9,8 @@ import java.util.UUID;
 import org.example.model.Message;
 import org.example.model.User;
 import org.example.repositories.MessageRepository;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
@@ -21,6 +23,8 @@ import org.springframework.web.multipart.MultipartFile;
 
 @Controller
 public class MainController {
+
+  private static final Logger logger = LoggerFactory.getLogger(MainController.class);
 
   private final MessageRepository messageRepository;
 
@@ -88,5 +92,12 @@ public class MainController {
     messages = messageRepository.findAll();
     model.addAttribute("messages", messages);
     return "main";
+  }
+
+  @PostMapping("/deleteAll")
+  public String deleteAll () {
+    logger.info("deleteAll ()");
+    messageRepository.deleteAll();
+    return "redirect:/main";
   }
 }

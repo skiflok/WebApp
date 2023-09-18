@@ -80,7 +80,17 @@
     </tr>
     </tbody>
   </table>
+
+  <form sec:authorize="hasRole('ADMIN')" method="post" th:action="@{/deleteAll}">
+    <div class="input-group mb-3">
+      <span class="input-group-text w-25">Delete All message</span>
+      <button type="submit" class="btn btn-primary">Delete all</button>
+    </div>
+  </form>
 </div>
+
+
+
 
 
 <!-- debug-->
